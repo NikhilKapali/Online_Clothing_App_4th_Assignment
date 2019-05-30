@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterFragment"
+    android:padding="25dp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="ID"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/et_fname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="First Name"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="Last Name"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:id="@+id/et_lname"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="UserName"
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:id="@+id/et_username_res"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="Enter Password"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:inputType="textPassword"
+            android:id="@+id/et_password_res"/>
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register" />
+    </LinearLayout>
+</FrameLayout>
