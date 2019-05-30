@@ -82,11 +82,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 username.getText().toString(),
                 password.getText().toString());
 
-        System.out.println( fname.getText().toString()+" "+
-                lname.getText().toString()+" "+
-                username.getText().toString()+" "+
-                password.getText().toString());
-
         Call<Void> addcall = masterApi.registerUser(userModel);
         addcall.enqueue(new Callback<Void>() {
             @Override

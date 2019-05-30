@@ -14,6 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.online_clothing_app_4th_assignment.API.MasterApi;
+import com.example.online_clothing_app_4th_assignment.Models.UserModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,8 +32,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     EditText ed_name, ed_pass;
     Boolean isLoggedIn=false;
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+    private static final String BASE_URL = "http://10.0.2.2:2000/";
+
+    MasterApi masterApi;
+    Retrofit retrofit;
+    UserModel userModel;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -42,54 +55,60 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         login = view.findViewById(R.id.btn_login);
         login.setOnClickListener(this);
 
-        preferences = getActivity().getSharedPreferences("APP", Context.MODE_PRIVATE);
-        editor = preferences.edit();
         return view;
+    }
+
+
+    private void createInstance(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        masterApi = retrofit.create(MasterApi.class);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_login) {
-            if (validate()){
-                preferences=getActivity().getSharedPreferences("Userinfo", Context.MODE_PRIVATE);
-                editor=preferences.edit();
-                String getusername=ed_name.getText().toString();
-                String getpassword=ed_pass.getText().toString();
-                String getSharedusername=preferences.getString("USERNAME","");
-                String getSharedpassword=preferences.getString("PASSWORD","");
+            userLogin();
 
-                if (getusername.equals(getSharedusername) && getpassword.equals(getSharedpassword)){
-                    isLoggedIn=true;
-                    editor.putBoolean("isLoggedIn",isLoggedIn).commit();
-                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getActivity(),Dashboard.class);
-                    //progress bar
-                    final ProgressDialog progressDialog=new ProgressDialog(getActivity());
-                    progressDialog.setTitle("Login in process");
-                    progressDialog.setMessage("Please Wait");
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-                    startActivity(intent);
-                    getActivity().finish();
-                }
-                else{
-
-                    Toast.makeText(getActivity(), "Username and Password do not match", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
-                Toast.makeText(getActivity(), "Something is wrong", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
-    private boolean validate(){
-        if(TextUtils.isEmpty(ed_name.getText().toString())){
+}
+    private void userLogin(){
+
+        createInstance();
+        String username = ed_name.getText().toString();
+        String password = ed_pass.getText().toString();
+        Call<Void> userCall = masterApi.checkUser(username, password);
+        userCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getActivity(), "Username Or Password Error",Toast.LENGTH_LONG).show();
+                    return;
+                }else{
+                    if (response.isSuccessful()){
+                        Intent intent = new Intent(getActivity(), Dashboard.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private boolean validate() {
+        if (TextUtils.isEmpty(ed_name.getText().toString())) {
             ed_name.setError("Enter Username");
             ed_name.requestFocus();
             return false;
         }
-        if (TextUtils.isEmpty(ed_pass.getText().toString())){
+        if (TextUtils.isEmpty(ed_pass.getText().toString())) {
             ed_pass.setError("Enter password");
             ed_pass.requestFocus();
             return false;
@@ -97,5 +116,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         return true;
     }
+
 }
+
+
 
