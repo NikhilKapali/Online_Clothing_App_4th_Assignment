@@ -30,10 +30,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
-    EditText fname,lname,username, password;
+    EditText fname,lname,username   , password;
     TextView id;
     Button register;
-    private static final String BASE_URL = "http://10.0.2.2:2000/signup/";
+    private static final String BASE_URL = "http://10.0.2.2:2000/";
 
     MasterApi masterApi;
     Retrofit retrofit;
@@ -77,17 +77,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
     private void RegisterUser(){
         createInstance();
-
-        Call<Void> addcall = masterApi.registerUser(new UserModel(
-                fname.getText().toString(),
+        UserModel userModel=new UserModel( fname.getText().toString(),
                 lname.getText().toString(),
                 username.getText().toString(),
-                password.getText().toString()));
+                password.getText().toString());
+
+        System.out.println( fname.getText().toString()+" "+
+                lname.getText().toString()+" "+
+                username.getText().toString()+" "+
+                password.getText().toString());
+
+        Call<Void> addcall = masterApi.registerUser(userModel);
         addcall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Intent intent=new Intent(getActivity(),LoginFragment.class);
-                startActivity(intent);
                 Toast.makeText(getActivity(), "Added", Toast.LENGTH_LONG).show();
             }
 
