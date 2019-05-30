@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.online_clothing_app_4th_assignment.API.MasterApi;
@@ -29,7 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
-    EditText id,fname,lname,username, password;
+    EditText fname,lname,username, password;
+    TextView id;
     Button register;
     private static final String BASE_URL = "http://10.0.2.2:2000/signup/";
 
@@ -76,7 +78,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private void RegisterUser(){
         createInstance();
 
-        Call<Void> addcall = masterApi.registerUser(new UserModel(0,
+        Call<Void> addcall = masterApi.registerUser(new UserModel(
                 fname.getText().toString(),
                 lname.getText().toString(),
                 username.getText().toString(),

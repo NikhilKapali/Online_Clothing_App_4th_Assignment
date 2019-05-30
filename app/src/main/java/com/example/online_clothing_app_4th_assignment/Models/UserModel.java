@@ -1,19 +1,10 @@
 package com.example.online_clothing_app_4th_assignment.Models;
 
 public class UserModel {
-    private int id;
     String fname;
     String lname;
     String username;
     String password;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFname() {
         return fname;
@@ -47,8 +38,7 @@ public class UserModel {
         this.password = password;
     }
 
-    public UserModel(int id, String fname, String lname, String username, String password) {
-        this.id = id;
+    public UserModel(String fname, String lname, String username, String password) {
         this.fname = fname;
         this.lname = lname;
         this.username = username;
